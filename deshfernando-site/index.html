@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chef Desh — Born to Explore, Inspired by Adventure, Cooked to Perfection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Tenor+Sans&family=Jost:wght@200;300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:      #0f1c2e;
+      --navy-mid:  #152238;
+      --burgundy:  #6B1A2A;
+      --burg-lt:   #8C2335;
+      --forest:    #1E3A2F;
+      --forest-lt: #2A5241;
+      --gold:      #C9A96E;
+      --gold-lt:   #E2C28A;
+      --cream:     #F5F0E8;
+      --cream-dk:  #E8E0D0;
+      --muted:     rgba(245,240,232,0.55);
+      --text-dk:   #1a1310;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; background: var(--navy); color: var(--cream); overflow-x: hidden; }
+    body.custom-cursor, body.custom-cursor * { cursor: none !important; }
+
+    /* ── Cursor ── */
+    #cursor { position: fixed; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: transform 0.08s ease; }
+    #cursor-ring { position: fixed; width: 32px; height: 32px; border: 1px solid var(--gold); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: all 0.18s ease; opacity: 0.5; }
+
+    /* ── Grain ── */
+    body::after { content: ''; position: fixed; inset: 0; z-index: 9000; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); opacity: 0.025; }
+
+    /* ── Nav ── */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 1.8rem 5rem; transition: all 0.4s ease; }
+    nav.scrolled { background: rgba(15,28,46,0.97); backdrop-filter: blur(20px); padding: 1.1rem 5rem; border-bottom: 1px solid rgba(201,169,110,0.12); }
+    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 300; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream); }
+    .nav-logo span { color: var(--gold); font-style: italic; }
+    .nav-links { display: flex; gap: 2.8rem; align-items: center; }
+    .nav-links a { font-size: 0.67rem; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 300; color: var(--muted); position: relative; padding-bottom: 4px; transition: color 0.3s; }
+    .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px; background: var(--gold); transition: width 0.35s ease; }
+    .nav-links a:hover { color: var(--gold-lt); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta { color: var(--navy) !important; background: var(--gold); padding: 0.6rem 1.4rem; transition: background 0.3s !important; }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { background: var(--gold-lt) !important; }
+
+    /* ── HERO ── */
+    #home { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; position: relative; overflow: hidden; }
+    .hero-bg-img { position: absolute; inset: 0; }
+    .hero-bg-img img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+    .hero-bg-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(15,28,46,0.97) 0%, rgba(15,28,46,0.85) 45%, rgba(15,28,46,0.3) 100%); }
+    .hero-left { position: relative; z-index: 2; display: flex; flex-direction: column; justify-content: center; padding: 10rem 4rem 6rem 7rem; }
+    .hero-tag { display: inline-flex; align-items: center; gap: 1rem; font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards; }
+    .hero-tag::before { content: ''; width: 2.5rem; height: 1px; background: var(--gold); }
+    .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 5.5vw, 5.8rem); font-weight: 300; line-height: 1.05; color: var(--cream); margin-bottom: 0.4rem; opacity: 0; animation: fadeUp 0.9s ease 0.4s forwards; }
+    .hero-title-italic { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 5.5vw, 5.8rem); font-weight: 300; font-style: italic; line-height: 1.05; color: var(--gold-lt); margin-bottom: 0; opacity: 0; animation: fadeUp 0.9s ease 0.5s forwards; }
+    .hero-title-pearl { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 5.5vw, 5.8rem); font-weight: 300; font-style: italic; line-height: 1.05; color: #E8D5C4; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.9s ease 0.6s forwards; }
+    .hero-desc { font-size: 0.9rem; font-weight: 200; line-height: 2; color: var(--muted); max-width: 42ch; margin-bottom: 3.5rem; opacity: 0; animation: fadeUp 0.9s ease 0.65s forwards; }
+    .hero-buttons { display: flex; gap: 1.2rem; align-items: center; opacity: 0; animation: fadeUp 0.9s ease 0.8s forwards; }
+    .btn-gold { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; font-weight: 400; color: var(--navy); background: var(--gold); padding: 1rem 2.2rem; transition: all 0.3s ease; display: inline-block; }
+    .btn-gold:hover { background: var(--gold-lt); transform: translateY(-2px); }
+    .btn-outline { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; font-weight: 300; color: var(--cream); border: 1px solid rgba(245,240,232,0.3); padding: 1rem 2.2rem; transition: all 0.3s ease; display: inline-block; }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+    .hero-right { position: relative; z-index: 1; }
+    .hero-scroll { position: absolute; bottom: 3rem; left: 7rem; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 0.8rem; opacity: 0; animation: fadeIn 1s ease 1.2s forwards; }
+    .hero-scroll span { font-size: 0.58rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--muted); }
+    .scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollDrop 2s ease infinite; }
+
+    /* ── Worlds ── */
+    #worlds { padding: 8rem 0; background: var(--navy); }
+    .worlds-header { text-align: center; padding: 0 2rem; margin-bottom: 5rem; }
+    .section-label { font-size: 0.6rem; letter-spacing: 0.45em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 1rem; }
+    .section-label::before { content: ''; width: 2rem; height: 1px; background: var(--gold); }
+    .worlds-header .section-label { justify-content: center; }
+    .worlds-header .section-label::before { display: none; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 4vw, 3.8rem); font-weight: 300; line-height: 1.1; color: var(--cream); }
+    .section-title em { font-style: italic; color: var(--gold-lt); }
+    .worlds-header p { font-size: 0.9rem; font-weight: 200; line-height: 1.9; color: var(--muted); max-width: 55ch; margin: 1.5rem auto 0; }
+
+    .worlds-grid { display: grid; grid-template-columns: repeat(4, 1fr); min-height: 560px; }
+    .world-card { position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; padding: 2.5rem 2rem; min-height: 560px; text-decoration: none; cursor: none; }
+    .world-card-img { position: absolute; inset: 0; }
+    .world-card-img img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform 0.7s ease; }
+    .world-card:hover .world-card-img img { transform: scale(1.07); }
+    .world-card-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%); transition: background 0.4s; }
+    .world-card:hover .world-card-overlay { background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.15) 100%); }
+    .world-card-divider { position: absolute; top: 0; right: 0; bottom: 0; width: 1px; background: rgba(201,169,110,0.2); }
+    .world-card-content { position: relative; z-index: 2; }
+    .world-card-num { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 300; color: rgba(201,169,110,0.2); line-height: 1; margin-bottom: 0.8rem; }
+    .world-card-icon { font-size: 1.4rem; margin-bottom: 0.8rem; display: block; }
+    .world-card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: var(--cream); margin-bottom: 0.5rem; line-height: 1.2; }
+    .world-card-sub { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
+    .world-card-desc { font-size: 0.82rem; font-weight: 200; line-height: 1.7; color: rgba(245,240,232,0.65); max-height: 0; overflow: hidden; transition: max-height 0.4s ease, opacity 0.4s ease; opacity: 0; }
+    .world-card:hover .world-card-desc { max-height: 120px; opacity: 1; }
+    .world-card-arrow { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-top: 1rem; transform: translateX(-10px); transition: transform 0.3s, opacity 0.3s; opacity: 0; }
+    .world-card:hover .world-card-arrow { transform: translateX(0); opacity: 1; }
+
+    /* ── About ── */
+    #about { padding: 9rem 7rem; background: var(--cream); display: grid; grid-template-columns: 1fr 1fr; gap: 7rem; align-items: center; }
+    #about .section-label { color: var(--burgundy); }
+    #about .section-label::before { background: var(--burgundy); }
+    #about .section-title { color: var(--navy); }
+    #about .section-title em { color: var(--burgundy); }
+    .about-text p { font-size: 0.93rem; font-weight: 300; line-height: 2; color: #4a3f38; margin-bottom: 1.4rem; }
+    .about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem; padding-top: 3rem; border-top: 1px solid var(--cream-dk); }
+    .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 300; color: var(--burgundy); line-height: 1; }
+    .stat-label { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: #8a7a70; margin-top: 0.4rem; }
+    .about-visual { position: relative; }
+    .about-img-main { aspect-ratio: 3/4; overflow: hidden; position: relative; }
+    .about-img-main img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform 0.6s ease; }
+    .about-img-main:hover img { transform: scale(1.04); }
+    .about-img-accent { position: absolute; bottom: -1.5rem; right: -1.5rem; width: 60%; aspect-ratio: 1; border: 1px solid var(--burgundy); z-index: -1; }
+    .about-img-label { position: absolute; bottom: 1.5rem; left: -1.5rem; background: var(--burgundy); color: var(--cream); padding: 1rem 1.4rem; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; }
+
+    /* ── Photography ── */
+    #photography { padding: 8rem 0; background: var(--navy-mid); }
+    .photo-header { padding: 0 7rem; margin-bottom: 4rem; display: flex; align-items: flex-end; justify-content: space-between; }
+    .photo-link { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 0.6rem; transition: gap 0.3s; }
+    .photo-link:hover { gap: 1rem; }
+    .photo-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 320px 260px; gap: 3px; }
+    .photo-item { overflow: hidden; position: relative; }
+    .photo-item:first-child { grid-row: 1 / 3; }
+    .photo-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+    .photo-item:hover img { transform: scale(1.06); }
+    .photo-item-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(to top, rgba(0,0,0,0.75), transparent); font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-dk); }
+    /* Placeholder backgrounds for items without direct image access */
+    .photo-bg-1 { background: linear-gradient(135deg, #1a3a25, #2d1520); }
+    .photo-bg-2 { background: linear-gradient(135deg, #2a1535, #1a1035); }
+    .photo-bg-3 { background: linear-gradient(135deg, #351525, #1a0d10); }
+    .photo-bg-4 { background: linear-gradient(135deg, #0d2535, #0a1a25); }
+    .photo-bg-5 { background: linear-gradient(135deg, #1a2510, #0d1a0a); }
+
+    /* ── Sourdough ── */
+    #sourdough { padding: 8rem 7rem; background: var(--cream); display: grid; grid-template-columns: 1fr 1fr; gap: 7rem; align-items: center; }
+    #sourdough .section-label { color: var(--forest-lt); }
+    #sourdough .section-label::before { background: var(--forest-lt); }
+    #sourdough .section-title { color: var(--navy); }
+    #sourdough .section-title em { color: var(--forest); }
+    .sourdough-visual { position: relative; }
+    .sourdough-img-main { aspect-ratio: 4/5; overflow: hidden; }
+    .sourdough-img-main img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+    .sourdough-img-main:hover img { transform: scale(1.04); }
+    .sourdough-badge { position: absolute; top: -1.5rem; right: -1.5rem; width: 110px; height: 110px; background: var(--forest); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--cream); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; text-align: center; line-height: 1.5; }
+    .sourdough-badge strong { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; display: block; line-height: 1; }
+    .sourdough-img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top: 4px; }
+    .sourdough-img-grid-item { aspect-ratio: 1; overflow: hidden; }
+    .sourdough-img-grid-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+    .sourdough-img-grid-item:hover img { transform: scale(1.06); }
+    .sourdough-text p { font-size: 0.93rem; font-weight: 300; line-height: 2; color: #4a3f38; margin-bottom: 1.4rem; }
+    .sourdough-features { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0 2.5rem; }
+    .feature-item { display: flex; gap: 0.8rem; align-items: flex-start; }
+    .feature-icon { color: var(--forest); font-size: 1rem; margin-top: 2px; }
+    .feature-text { font-size: 0.82rem; font-weight: 300; color: #5a4f48; line-height: 1.6; }
+    .feature-text strong { font-weight: 400; color: var(--text-dk); }
+    .btn-forest { display: inline-block; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; font-weight: 400; color: var(--cream); background: var(--forest); padding: 1rem 2.2rem; transition: all 0.3s; }
+    .btn-forest:hover { background: var(--forest-lt); transform: translateY(-2px); }
+
+    /* ── Wild Kitchen ── */
+    #wildkitchen { padding: 9rem 0; background: #060c14; position: relative; overflow: hidden; }
+    .wk-bg { position: absolute; inset: 0; }
+    .wk-bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.25; }
+    .wk-bg-overlay { position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(107,26,42,0.5) 0%, rgba(6,12,20,0.9) 70%); }
+    .wk-inner { position: relative; z-index: 2; text-align: center; padding: 0 2rem; }
+    .wk-logo { margin: 0 auto 2.5rem; width: 180px; }
+    .wk-logo img { width: 100%; filter: brightness(1.1); }
+    #wildkitchen .section-label { justify-content: center; }
+    #wildkitchen .section-label::before { display: none; }
+    .wk-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 7vw, 8rem); font-weight: 300; line-height: 1; color: var(--cream); margin: 1rem 0 1.5rem; }
+    .wk-title em { font-style: italic; color: var(--gold-lt); }
+    .wk-desc { font-size: 0.93rem; font-weight: 200; line-height: 2; color: var(--muted); max-width: 52ch; margin: 0 auto 3rem; }
+    .wk-platforms { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 3rem; flex-wrap: wrap; }
+    .wk-platform { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); padding: 1.2rem 1.8rem; border: 1px solid rgba(201,169,110,0.2); transition: all 0.3s; }
+    .wk-platform:hover { border-color: var(--gold); color: var(--gold); }
+    .wk-platform-icon { font-size: 1.4rem; }
+    .wk-tagline { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-style: italic; color: rgba(201,169,110,0.45); margin-top: 1.5rem; }
+
+    /* ── Testimonial ── */
+    #testimonial { padding: 7rem 7rem; background: var(--burgundy); text-align: center; position: relative; overflow: hidden; }
+    .testimonial-bg { position: absolute; inset: 0; }
+    .testimonial-bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.12; }
+    .testimonial-inner { position: relative; z-index: 2; }
+    .testimonial-quote { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.3rem, 2.5vw, 2rem); font-weight: 300; font-style: italic; line-height: 1.7; color: var(--cream); max-width: 72ch; margin: 0 auto 2rem; }
+    .testimonial-quote::before { content: '\201C'; color: var(--gold-lt); font-size: 1.4em; }
+    .testimonial-quote::after { content: '\201D'; color: var(--gold-lt); font-size: 1.4em; }
+    .testimonial-author { font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(245,240,232,0.55); }
+
+    /* ── Contact ── */
+    #contact { padding: 8rem 7rem; background: var(--navy); display: grid; grid-template-columns: 1fr 1fr; gap: 7rem; }
+    #contact .section-title em { color: var(--gold-lt); }
+    .contact-desc { font-size: 0.92rem; font-weight: 200; line-height: 2; color: var(--muted); margin: 1.5rem 0 2.5rem; }
+    .contact-info { display: flex; flex-direction: column; gap: 1.5rem; }
+    .contact-item { display: flex; gap: 1.2rem; align-items: center; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(245,240,232,0.07); }
+    .contact-item-icon { color: var(--gold); font-size: 1rem; width: 20px; text-align: center; }
+    .contact-item-text { font-size: 0.85rem; font-weight: 300; color: var(--muted); }
+    .contact-item-text a { color: var(--cream-dk); transition: color 0.3s; }
+    .contact-item-text a:hover { color: var(--gold); }
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    .form-group label { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); }
+    .form-group input, .form-group textarea, .form-group select { background: rgba(255,255,255,0.04); border: 1px solid rgba(245,240,232,0.1); color: var(--cream); padding: 0.9rem 1rem; font-family: 'Jost', sans-serif; font-size: 0.85rem; font-weight: 200; outline: none; transition: border-color 0.3s; -webkit-appearance: none; }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--gold); }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(245,240,232,0.22); }
+    .form-group textarea { min-height: 120px; resize: vertical; }
+    .form-group select option { background: var(--navy); }
+    .btn-send { display: inline-block; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; font-weight: 400; color: var(--navy); background: var(--gold); padding: 1rem 2.5rem; border: none; font-family: 'Jost', sans-serif; cursor: none; transition: all 0.3s; align-self: flex-start; }
+    .btn-send:hover { background: var(--gold-lt); transform: translateY(-2px); }
+
+    /* ── Footer ── */
+    footer { background: #060d18; padding: 3rem 7rem; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(201,169,110,0.1); }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 300; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream); }
+    .footer-logo span { color: var(--gold); font-style: italic; }
+    .footer-copy { font-size: 0.62rem; letter-spacing: 0.15em; color: rgba(245,240,232,0.28); }
+    .footer-social { display: flex; gap: 1.5rem; }
+    .footer-social a { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(245,240,232,0.38); transition: color 0.3s; }
+    .footer-social a:hover { color: var(--gold); }
+
+    /* ── Animations ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes scrollDrop { 0% { transform: scaleY(0); transform-origin: top; opacity: 1; } 50% { transform: scaleY(1); transform-origin: top; } 100% { transform: scaleY(1); transform-origin: bottom; opacity: 0; } }
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.22s; }
+    .reveal-delay-3 { transition-delay: 0.34s; }
+    .reveal-delay-4 { transition-delay: 0.46s; }
+
+    /* ── Responsive ── */
+    @media (max-width: 1100px) {
+      nav { padding: 1.5rem 2rem; }
+      nav.scrolled { padding: 1rem 2rem; }
+      .nav-links { gap: 1.5rem; }
+      #home { grid-template-columns: 1fr; }
+      .hero-left { padding: 10rem 3rem 6rem 3rem; }
+      .hero-right { display: none; }
+      .hero-scroll { left: 3rem; }
+      #about, #sourdough, #contact { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 3rem; }
+      .about-visual { order: -1; }
+      .photo-header { padding: 0 3rem; }
+      .worlds-grid { grid-template-columns: 1fr 1fr; }
+      #wildkitchen { padding: 7rem 2rem; }
+      #testimonial { padding: 5rem 2rem; }
+      footer { flex-direction: column; gap: 1.5rem; text-align: center; padding: 2.5rem 2rem; }
+    }
+    @media (max-width: 700px) {
+      .worlds-grid { grid-template-columns: 1fr; }
+      .photo-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .photo-item:first-child { grid-row: auto; }
+      .form-row { grid-template-columns: 1fr; }
+      .about-stats { grid-template-columns: 1fr; gap: 1.2rem; }
+      .nav-links { display: none; }
+      .sourdough-features { grid-template-columns: 1fr; }
+      .sourdough-img-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <div class="nav-logo">Chef <span>Desh</span></div>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#worlds">Worlds</a>
+      <a href="#about">About</a>
+      <a href="#photography">Photography</a>
+      <a href="#sourdough">Workshop</a>
+      <a href="#wildkitchen">Wild Kitchen</a>
+      <a href="#contact" class="nav-cta">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HERO — uses the chefdesh.ca portrait photo as background -->
+  <section id="home">
+    <div class="hero-bg-img">
+      <img src="https://static.wixstatic.com/media/7edcb1_e8a611ebae3448199b1d6ca9f3383d5c~mv2.jpg/v1/fill/w_1800,h_2400,al_c,q_85,enc_avif,quality_auto/7edcb1_e8a611ebae3448199b1d6ca9f3383d5c~mv2.jpg" alt="Chef Desh" />
+    </div>
+    <div class="hero-bg-overlay"></div>
+    <div class="hero-left">
+      <div class="hero-tag">Chef · Photographer · Creator · Vancouver Island</div>
+      <h1 class="hero-title">Born to Explore,</h1>
+      <h1 class="hero-title-italic">Inspired by Adventure,</h1>
+      <h1 class="hero-title-pearl">Cooked to Perfection.</h1>
+      <p class="hero-desc">Desh Fernando is a Vancouver Island-based chef, sourdough educator, food & lifestyle photographer, and adventure cooking creator — blending culinary artistry with storytelling across every medium.</p>
+      <div class="hero-buttons">
+        <a href="#worlds" class="btn-gold">Explore My World</a>
+        <a href="#contact" class="btn-outline">Work With Me</a>
+      </div>
+    </div>
+    <div class="hero-right"></div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- WORLDS -->
+  <section id="worlds">
+    <div class="worlds-header reveal">
+      <div class="section-label">Everything I Do</div>
+      <h2 class="section-title">Four Worlds, <em>One Vision</em></h2>
+      <p>From the kitchen to the lens to the studio — every venture is driven by one belief: food is the greatest adventure life has to offer.</p>
+    </div>
+    <div class="worlds-grid">
+
+      <!-- Card 1: Photography — sourdough loaf image as backdrop -->
+      <a href="photography.html" class="world-card">
+        <div class="world-card-img">
+          <img src="https://static.wixstatic.com/media/7edcb1_21dea03f23bc4be49a80289b382f48cf~mv2.jpg/v1/fill/w_800,h_1200,al_c,q_85,enc_avif,quality_auto/7edcb1_21dea03f23bc4be49a80289b382f48cf~mv2.jpg" alt="Photography" />
+        </div>
+        <div class="world-card-overlay"></div>
+        <div class="world-card-divider"></div>
+        <div class="world-card-content">
+          <div class="world-card-num">01</div>
+          <span class="world-card-icon">📷</span>
+          <h3 class="world-card-title">Photography Portfolio</h3>
+          <div class="world-card-sub">Food · Portraits · Lifestyle · Motion</div>
+          <p class="world-card-desc">A visual journey through food, people, and the moments in between — shot with the same precision I bring to the kitchen.</p>
+          <span class="world-card-arrow">Visit Gallery →</span>
+        </div>
+      </a>
+
+      <!-- Card 2: Sourdough Workshop -->
+      <a href="sourdough.html" class="world-card">
+        <div class="world-card-img">
+          <img src="https://static.wixstatic.com/media/7edcb1_606f605ead7b4e37833e7034d0e3a7d3f000.jpg/v1/fill/w_800,h_1400,al_c,q_85,enc_avif,quality_auto/7edcb1_606f605ead7b4e37833e7034d0e3a7d3f000.jpg" alt="Sourdough Workshop" />
+        </div>
+        <div class="world-card-overlay"></div>
+        <div class="world-card-divider"></div>
+        <div class="world-card-content">
+          <div class="world-card-num">02</div>
+          <span class="world-card-icon">🍞</span>
+          <h3 class="world-card-title">Toronto Sourdough Workshop</h3>
+          <div class="world-card-sub">Classes · Blog · Shop</div>
+          <p class="world-card-desc">Where an ancient craft meets a modern kitchen. Learn to bake sourdough with community, confidence, and a bit of flour on your hands.</p>
+          <span class="world-card-arrow">Book a Class →</span>
+        </div>
+      </a>
+
+      <!-- Card 3: Chef Desh Adventure -->
+      <a href="https://chefdesh.ca" target="_blank" class="world-card">
+        <div class="world-card-img">
+          <img src="https://static.wixstatic.com/media/7edcb1_930b7fdb0420444ebe2714976825d712~mv2.jpg/v1/fill/w_800,h_1200,al_c,q_85,enc_avif,quality_auto/7edcb1_930b7fdb0420444ebe2714976825d712~mv2.jpg" alt="Chef Desh Adventure" />
+        </div>
+        <div class="world-card-overlay"></div>
+        <div class="world-card-divider"></div>
+        <div class="world-card-content">
+          <div class="world-card-num">03</div>
+          <span class="world-card-icon">🌍</span>
+          <h3 class="world-card-title">Chef Desh Adventure Cooking</h3>
+          <div class="world-card-sub">Portfolio · Journey · Story</div>
+          <p class="world-card-desc">The story of a chef's evolution — from how the adventure began, to where it continues to take him around the world.</p>
+          <span class="world-card-arrow">See the Journey →</span>
+        </div>
+      </a>
+
+      <!-- Card 4: Wild Kitchen Show -->
+      <a href="https://wildkitchen.show" target="_blank" class="world-card">
+        <div class="world-card-img">
+          <img src="https://static.wixstatic.com/media/7edcb1_85eb6cafa8c94fee8ffb10844d76838d~mv2.jpg/v1/fill/w_800,h_1200,al_c,q_85,enc_avif,quality_auto/7edcb1_85eb6cafa8c94fee8ffb10844d76838d~mv2.jpg" alt="Wild Kitchen Show" />
+        </div>
+        <div class="world-card-overlay"></div>
+        <div class="world-card-content">
+          <div class="world-card-num">04</div>
+          <span class="world-card-icon">🎬</span>
+          <h3 class="world-card-title">Wild Kitchen Show</h3>
+          <div class="world-card-sub">Instagram · TikTok · Facebook</div>
+          <p class="world-card-desc">Where culinary craft meets wild adventure. A content series exploring food in its most raw, adventurous, and inspiring forms.</p>
+          <span class="world-card-arrow">Watch Now →</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-text">
+      <div class="section-label reveal">The Man Behind the Apron</div>
+      <h2 class="section-title reveal reveal-delay-1">A Chef Who <em>Lives</em><br>to Tell the Story</h2>
+      <div class="reveal reveal-delay-2">
+        <p style="margin-top:1.8rem">Desh Fernando is a Vancouver Island-based chef, photographer, and storyteller whose passion for food goes far beyond the plate. Inspired by adventure and driven by curiosity, Desh has built a culinary world that spans teaching sourdough in condos, capturing breathtaking food photography, and hosting a wild adventure cooking show.</p>
+        <p>What started with a single sourdough loaf has grown into a multi-faceted creative career — one that connects people with the joy of cooking, the beauty of food, and the thrill of exploration.</p>
+      </div>
+      <div class="about-stats reveal reveal-delay-3">
+        <div><div class="stat-num">4</div><div class="stat-label">Creative Platforms</div></div>
+        <div><div class="stat-num">TSW</div><div class="stat-label">Since 2020</div></div>
+        <div><div class="stat-num">YYJ</div><div class="stat-label">Vancouver Island</div></div>
+      </div>
+    </div>
+    <div class="about-visual reveal">
+      <!-- Real portrait from chefdesh.ca -->
+      <div class="about-img-main">
+        <img src="https://static.wixstatic.com/media/7edcb1_7c55d6366b7a4d75a29b11c06c20d129~mv2.jpeg/v1/fill/w_900,h_1200,al_c,q_85,enc_avif,quality_auto/7edcb1_7c55d6366b7a4d75a29b11c06c20d129~mv2.jpeg" alt="Chef Desh Fernando" />
+      </div>
+      <div class="about-img-accent"></div>
+      <div class="about-img-label">Chef Desh · North Saanich, BC</div>
+    </div>
+  </section>
+
+  <!-- PHOTOGRAPHY -->
+  <section id="photography">
+    <div class="photo-header">
+      <div>
+        <div class="section-label reveal">Through the Lens</div>
+        <h2 class="section-title reveal reveal-delay-1">Food. <em>Life.</em> Motion.</h2>
+      </div>
+      <a href="photography.html" class="photo-link reveal">View Full Portfolio →</a>
+    </div>
+    <div class="photo-grid">
+      <!-- Bread / food as stand-in for food photography -->
+      <div class="photo-item">
+        <img src="https://static.wixstatic.com/media/7edcb1_87597bde7d1643f1b5c010f6da47545e~mv2.jpg/v1/fill/w_900,h_1400,al_c,q_85,enc_avif,quality_auto/7edcb1_87597bde7d1643f1b5c010f6da47545e~mv2.jpg" alt="Food Photography" />
+        <div class="photo-item-label">Food</div>
+      </div>
+      <div class="photo-item">
+        <img src="https://static.wixstatic.com/media/7edcb1_c856598d08ef403d82a8cdd576524d91~mv2.jpg/v1/fill/w_600,h_700,al_c,q_85,enc_avif,quality_auto/7edcb1_c856598d08ef403d82a8cdd576524d91~mv2.jpg" alt="Portraits" />
+        <div class="photo-item-label">Portraits</div>
+      </div>
+      <div class="photo-item">
+        <img src="https://static.wixstatic.com/media/7edcb1_274edad824724936afb0e28985c32f5d~mv2.jpg/v1/fill/w_600,h_700,al_c,q_85,enc_avif,quality_auto/7edcb1_274edad824724936afb0e28985c32f5d~mv2.jpg" alt="Lifestyle" />
+        <div class="photo-item-label">Lifestyle</div>
+      </div>
+      <div class="photo-item">
+        <img src="https://static.wixstatic.com/media/7edcb1_db6fdc9367e64630b5d8ff2029697bf9~mv2.jpg/v1/fill/w_600,h_500,al_c,q_85,enc_avif,quality_auto/7edcb1_db6fdc9367e64630b5d8ff2029697bf9~mv2.jpg" alt="Motion" />
+        <div class="photo-item-label">Motion</div>
+      </div>
+      <div class="photo-item">
+        <img src="https://static.wixstatic.com/media/7edcb1_3feead9f6e024293879d1c390e422662~mv2.jpg/v1/fill/w_600,h_500,al_c,q_85,enc_avif,quality_auto/7edcb1_3feead9f6e024293879d1c390e422662~mv2.jpg" alt="Personal" />
+        <div class="photo-item-label">Personal</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOURDOUGH WORKSHOP -->
+  <section id="sourdough">
+    <div class="sourdough-visual reveal">
+      <div class="sourdough-img-main">
+        <img src="https://static.wixstatic.com/media/7edcb1_21dea03f23bc4be49a80289b382f48cf~mv2.jpg/v1/fill/w_900,h_1100,al_c,q_85,enc_avif,quality_auto/7edcb1_21dea03f23bc4be49a80289b382f48cf~mv2.jpg" alt="Sourdough bread" />
+      </div>
+      <div class="sourdough-badge"><strong>TSW</strong>Since<br>2020</div>
+      <div class="sourdough-img-grid">
+        <div class="sourdough-img-grid-item">
+          <img src="https://static.wixstatic.com/media/7edcb1_24eca1f177d34876a88cb37c01f7265c~mv2.jpg/v1/fill/w_400,h_400,al_c,q_85,enc_avif,quality_auto/7edcb1_24eca1f177d34876a88cb37c01f7265c~mv2.jpg" alt="Sourdough tools" />
+        </div>
+        <div class="sourdough-img-grid-item">
+          <img src="https://static.wixstatic.com/media/7edcb1_274edad824724936afb0e28985c32f5d~mv2.jpg/v1/fill/w_400,h_400,al_c,q_85,enc_avif,quality_auto/7edcb1_274edad824724936afb0e28985c32f5d~mv2.jpg" alt="Sourdough loaf" />
+        </div>
+      </div>
+    </div>
+    <div class="sourdough-text">
+      <div class="section-label reveal">Toronto Sourdough Workshop</div>
+      <h2 class="section-title reveal reveal-delay-1">Ancient Art,<br><em>Modern Kitchen</em></h2>
+      <div class="reveal reveal-delay-2">
+        <p style="margin-top:1.8rem">It all began when Desh baked his first sourdough loaf in his condo — hooked by the taste, smell, and texture. A neighbour's simple suggestion turned into a workshop, and a community was born.</p>
+      </div>
+      <div class="sourdough-features reveal reveal-delay-3">
+        <div class="feature-item"><div class="feature-icon">✦</div><div class="feature-text"><strong>Live Online Classes</strong><br>Bake alongside Chef Desh from your own kitchen via Zoom</div></div>
+        <div class="feature-item"><div class="feature-icon">✦</div><div class="feature-text"><strong>Food Theory Blog</strong><br>Deep dives into the science and soul of sourdough</div></div>
+        <div class="feature-item"><div class="feature-icon">✦</div><div class="feature-text"><strong>Equipment Shop</strong><br>Everything you need to get started, curated by the chef</div></div>
+        <div class="feature-item"><div class="feature-icon">✦</div><div class="feature-text"><strong>Nutrition Blog</strong><br>Understanding the health benefits of fermented breads</div></div>
+      </div>
+      <a href="sourdough.html" class="btn-forest reveal reveal-delay-4">Book a Workshop</a>
+    </div>
+  </section>
+
+  <!-- WILD KITCHEN SHOW -->
+  <section id="wildkitchen">
+    <div class="wk-bg">
+      <img src="https://static.wixstatic.com/media/7edcb1_85eb6cafa8c94fee8ffb10844d76838d~mv2.jpg/v1/fill/w_1800,h_900,al_c,q_85,enc_avif,quality_auto/7edcb1_85eb6cafa8c94fee8ffb10844d76838d~mv2.jpg" alt="Wild Kitchen" />
+    </div>
+    <div class="wk-bg-overlay"></div>
+    <div class="wk-inner">
+      <div class="wk-logo reveal">
+        <img src="https://images.squarespace-cdn.com/content/v1/66eca0ae4f2f0e2d39de089b/d139848c-08fc-4bb3-a819-1ab4d24eb121/WK_Logo_OT.png?format=1500w" alt="Wild Kitchen Show Logo" />
+      </div>
+      <div class="section-label reveal">The Show</div>
+      <h2 class="wk-title reveal reveal-delay-1">Wild<br><em>Kitchen</em></h2>
+      <p class="wk-desc reveal reveal-delay-2">Where culinary craft meets untamed adventure. The Wild Kitchen Show follows Chef Desh into the wild — cooking, exploring, and bringing food stories to life on screen.</p>
+      <div class="wk-platforms reveal reveal-delay-3">
+        <a href="https://www.instagram.com/Chef_Desh_Adventure_Cooking/" target="_blank" class="wk-platform"><span class="wk-platform-icon">📸</span>Instagram</a>
+        <a href="https://wildkitchen.show" target="_blank" class="wk-platform"><span class="wk-platform-icon">🎵</span>TikTok</a>
+        <a href="https://wildkitchen.show" target="_blank" class="wk-platform"><span class="wk-platform-icon">👥</span>Facebook</a>
+        <a href="https://wildkitchen.show" target="_blank" class="wk-platform"><span class="wk-platform-icon">🌐</span>wildkitchen.show</a>
+      </div>
+      <a href="https://wildkitchen.show" target="_blank" class="btn-gold reveal reveal-delay-4">Watch the Show</a>
+      <div class="wk-tagline reveal">Inspired by Adventure</div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIAL -->
+  <section id="testimonial">
+    <div class="testimonial-bg">
+      <img src="https://static.wixstatic.com/media/7edcb1_606f605ead7b4e37833e7034d0e3a7d3f000.jpg/v1/fill/w_1400,h_700,al_c,q_85,enc_avif,quality_auto/7edcb1_606f605ead7b4e37833e7034d0e3a7d3f000.jpg" alt="" />
+    </div>
+    <div class="testimonial-inner">
+      <blockquote class="testimonial-quote reveal">Desh Fernando is a phenomenal teacher and makes learning an ancient art fun and educational while helping build confidence in the process. $25 is really a bargain for all that you get — he's right there with you in your kitchen!</blockquote>
+      <div class="testimonial-author reveal reveal-delay-1">— Doris Fin · Toronto Sourdough Workshop Student</div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div>
+      <div class="section-label reveal">Get in Touch</div>
+      <h2 class="section-title reveal reveal-delay-1">Let's Create<br><em>Something</em> Great</h2>
+      <p class="contact-desc reveal reveal-delay-2">Whether you're looking to book a workshop, collaborate on a shoot, or bring the Wild Kitchen Show to your event — Desh would love to hear from you.</p>
+      <div class="contact-info reveal reveal-delay-3">
+        <div class="contact-item"><div class="contact-item-icon">✉</div><div class="contact-item-text"><a href="/cdn-cgi/l/email-protection#84ece1e8e8ebc4e0e1f7ece2e1f6eae5eae0ebaae7ebe9"><span class="__cf_email__" data-cfemail="a5cdc0c9c9cae5c1c0d6cdc3c0d7cbc4cbc1ca8bc6cac8">[email&#160;protected]</span></a></div></div>
+        <div class="contact-item"><div class="contact-item-icon">📍</div><div class="contact-item-text">North Saanich, BC · Vancouver Island</div></div>
+        <div class="contact-item"><div class="contact-item-icon">📸</div><div class="contact-item-text"><a href="https://www.instagram.com/Chef_Desh_Adventure_Cooking/" target="_blank">@Chef_Desh_Adventure_Cooking</a></div></div>
+      </div>
+    </div>
+    <div>
+      <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group"><label>First Name</label><input type="text" placeholder="Your name" /></div>
+          <div class="form-group"><label>Last Name</label><input type="text" placeholder="Your surname" /></div>
+        </div>
+        <div class="form-group"><label>Email</label><input type="email" placeholder="your@email.com" /></div>
+        <div class="form-group">
+          <label>I'm interested in</label>
+          <select>
+            <option value="">Select an option</option>
+            <option>Sourdough Workshop</option>
+            <option>Food Photography</option>
+            <option>Portrait Photography</option>
+            <option>Wild Kitchen Show Collaboration</option>
+            <option>Private Chef Experience</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Message</label><textarea placeholder="Tell me about your project or enquiry…"></textarea></div>
+        <button type="submit" class="btn-send">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Chef <span>Desh</span></div>
+    <div class="footer-copy">© 2026 Desh Fernando. All rights reserved.</div>
+    <div class="footer-social">
+      <a href="https://deshfernando.com" target="_blank">Portfolio</a>
+      <a href="https://torontosourdoughworkshop.com" target="_blank">Workshop</a>
+      <a href="https://chefdesh.ca" target="_blank">Chef Desh</a>
+      <a href="https://wildkitchen.show" target="_blank">Wild Kitchen</a>
+      <a href="https://www.instagram.com/Chef_Desh_Adventure_Cooking/" target="_blank">Instagram</a>
+    </div>
+  </footer>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursor-ring');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+      ring.style.left   = e.clientX + 'px';
+      ring.style.top    = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => { ring.style.width = '52px'; ring.style.height = '52px'; ring.style.opacity = '0.9'; });
+      el.addEventListener('mouseleave', () => { ring.style.width = '32px'; ring.style.height = '32px'; ring.style.opacity = '0.5'; });
+    });
+
+    // Nav scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 60); });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.observe(e.target); }
+    });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Contact form
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.btn-send');
+      btn.textContent = 'Message Sent ✓';
+      btn.style.background = '#2A5241';
+      setTimeout(() => { btn.textContent = 'Send Message'; btn.style.background = ''; }, 3000);
+    }
+  </script>
+
+  <script>
+    // Cursor — standalone block, isolated from Cloudflare script
+    (function() {
+      var cur = document.getElementById('cursor');
+      var ring = document.getElementById('cursor-ring');
+      if (!cur || !ring) return;
+      cur.style.left = '-200px'; cur.style.top = '-200px';
+      ring.style.left = '-200px'; ring.style.top = '-200px';
+      document.addEventListener('mousemove', function(e) {
+        document.body.classList.add('custom-cursor');
+        cur.style.left = e.clientX + 'px';
+        cur.style.top  = e.clientY + 'px';
+        ring.style.left = e.clientX + 'px';
+        ring.style.top  = e.clientY + 'px';
+      });
+      document.querySelectorAll('a, button').forEach(function(el) {
+        el.addEventListener('mouseenter', function() { ring.style.width='52px'; ring.style.height='52px'; ring.style.opacity='0.9'; });
+        el.addEventListener('mouseleave', function() { ring.style.width='32px'; ring.style.height='32px'; ring.style.opacity='0.5'; });
+      });
+    })();
+  </script>
+
+</body>
+</html>
