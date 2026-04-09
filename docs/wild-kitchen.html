@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wild Kitchen Show — Chef Desh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Tenor+Sans&family=Jost:wght@200;300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:      #0f1c2e;
+      --navy-mid:  #152238;
+      --burgundy:  #6B1A2A;
+      --forest:    #1E3A2F;
+      --forest-lt: #2A5241;
+      --gold:      #C9A96E;
+      --gold-lt:   #E2C28A;
+      --cream:     #F5F0E8;
+      --muted:     rgba(245,240,232,0.55);
+      --text-dk:   #1a1310;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; background: var(--navy); color: var(--cream); overflow-x: hidden; }
+    body::after { content: ''; position: fixed; inset: 0; z-index: 9000; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); opacity: 0.025; }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 1.8rem 5rem; background: rgba(15,28,46,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(201,169,110,0.12); }
+    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 300; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream); text-decoration: none; }
+    .nav-logo span { color: var(--gold); font-style: italic; }
+    .nav-links { display: flex; gap: 2.8rem; align-items: center; list-style: none; }
+    .nav-links a { font-size: 0.67rem; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 300; color: var(--muted); position: relative; padding-bottom: 4px; transition: color 0.3s; text-decoration: none; }
+    .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px; background: var(--gold); transition: width 0.35s ease; }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold-lt); }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+    .nav-cta { color: var(--navy) !important; background: var(--gold) !important; padding: 0.6rem 1.4rem !important; }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { background: var(--gold-lt) !important; }
+
+    /* HERO */
+    .wk-hero { min-height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
+    .wk-hero-bg { position: absolute; inset: 0; }
+    .wk-hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+    .wk-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,28,46,0.92) 0%, rgba(15,28,46,0.6) 50%, rgba(15,28,46,0.4) 100%); }
+    .wk-hero-content { position: relative; z-index: 2; padding: 2rem; }
+    .wk-logo { width: 180px; margin: 0 auto 2.5rem; }
+    .wk-logo img { width: 100%; filter: brightness(1.1); }
+    .wk-eyebrow { font-size: 0.6rem; letter-spacing: 0.45em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; }
+    .wk-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(4rem, 10vw, 9rem); font-weight: 300; line-height: 0.95; color: var(--cream); }
+    .wk-title em { font-style: italic; color: var(--gold-lt); display: block; }
+    .wk-tagline { font-size: 0.75rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--muted); margin: 2.5rem 0 3rem; }
+    .wk-hero-btns { display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap; }
+    .btn-gold { display: inline-block; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; font-weight: 400; color: var(--navy); background: var(--gold); padding: 1rem 2.2rem; transition: all 0.3s ease; text-decoration: none; }
+    .btn-gold:hover { background: var(--gold-lt); transform: translateY(-2px); }
+    .btn-outline { display: inline-block; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; font-weight: 300; color: var(--cream); border: 1px solid rgba(245,240,232,0.3); padding: 1rem 2.2rem; transition: all 0.3s ease; text-decoration: none; }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ABOUT THE SHOW */
+    .show-about { padding: 8rem 7rem; display: grid; grid-template-columns: 1fr 1fr; gap: 7rem; align-items: center; }
+    .section-label { font-size: 0.6rem; letter-spacing: 0.45em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem; }
+    .section-label::before { content: ''; width: 2rem; height: 1px; background: var(--gold); }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 4vw, 3.8rem); font-weight: 300; line-height: 1.1; color: var(--cream); margin-bottom: 2rem; }
+    .section-title em { font-style: italic; color: var(--gold-lt); }
+    .show-about-text p { font-size: 0.93rem; font-weight: 300; line-height: 2; color: var(--muted); margin-bottom: 1.4rem; }
+    .show-about-img { aspect-ratio: 4/5; overflow: hidden; position: relative; }
+    .show-about-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+    .show-about-img:hover img { transform: scale(1.04); }
+
+    /* PLATFORMS */
+    .platforms-section { background: rgba(255,255,255,0.03); border-top: 1px solid rgba(201,169,110,0.1); border-bottom: 1px solid rgba(201,169,110,0.1); padding: 5rem 7rem; text-align: center; }
+    .platforms-label { font-size: 0.6rem; letter-spacing: 0.45em; text-transform: uppercase; color: var(--gold); margin-bottom: 3rem; }
+    .platforms-grid { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; }
+    .platform-link { display: flex; flex-direction: column; align-items: center; gap: 0.8rem; padding: 2rem 2.5rem; border: 1px solid rgba(201,169,110,0.15); text-decoration: none; color: var(--muted); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; transition: all 0.3s; min-width: 130px; }
+    .platform-link:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-4px); }
+    .platform-icon { font-size: 1.8rem; }
+
+    /* EPISODES / PITCH */
+    .pitch-section { padding: 8rem 7rem; text-align: center; }
+    .pitch-section .section-label { justify-content: center; }
+    .pitch-section .section-label::before { display: none; }
+    .pitch-section .section-title { margin-bottom: 1.5rem; }
+    .pitch-desc { font-size: 0.93rem; font-weight: 300; line-height: 2; color: var(--muted); max-width: 60ch; margin: 0 auto 4rem; }
+    .pitch-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; text-align: left; }
+    .pitch-card { border: 1px solid rgba(201,169,110,0.15); padding: 2.5rem 2rem; transition: border-color 0.3s; }
+    .pitch-card:hover { border-color: rgba(201,169,110,0.4); }
+    .pitch-card-icon { font-size: 1.5rem; margin-bottom: 1.2rem; }
+    .pitch-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; color: var(--cream); margin-bottom: 0.8rem; }
+    .pitch-card p { font-size: 0.82rem; font-weight: 300; line-height: 1.8; color: var(--muted); }
+
+    /* CTA */
+    .wk-cta { background: linear-gradient(135deg, #1E3A2F 0%, #0f1c2e 100%); padding: 7rem; text-align: center; }
+    .wk-cta .section-label { justify-content: center; color: var(--gold-lt); }
+    .wk-cta .section-label::before { display: none; }
+    .wk-cta .section-title { margin-bottom: 1.5rem; }
+    .wk-cta p { font-size: 0.93rem; font-weight: 300; line-height: 2; color: var(--muted); max-width: 50ch; margin: 0 auto 3rem; }
+
+    /* FOOTER */
+    footer { background: var(--navy-mid, #152238); padding: 3rem 7rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(201,169,110,0.08); }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 300; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream); text-decoration: none; }
+    .footer-logo span { color: var(--gold); font-style: italic; }
+    .footer-copy { font-size: 0.65rem; letter-spacing: 0.1em; color: var(--muted); }
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--gold); }
+
+    @media(max-width: 900px) {
+      nav { padding: 1.2rem 2rem; }
+      .show-about { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 3rem; }
+      .platforms-section { padding: 4rem 3rem; }
+      .pitch-section { padding: 5rem 3rem; }
+      .pitch-cards { grid-template-columns: 1fr; }
+      .wk-cta { padding: 5rem 3rem; }
+      footer { flex-direction: column; gap: 1.5rem; text-align: center; padding: 3rem 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/index.html" class="nav-logo">Chef <span>Desh</span></a>
+  <ul class="nav-links">
+    <li><a href="/index.html">Home</a></li>
+    <li><a href="/wild-kitchen.html" class="active">Wild Kitchen</a></li>
+    <li><a href="/workshop.html">Workshop</a></li>
+    <li><a href="/photography.html">Photography</a></li>
+    <li><a href="/index.html#contact" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="wk-hero">
+  <div class="wk-hero-bg">
+    <img src="https://static.wixstatic.com/media/7edcb1_85eb6cafa8c94fee8ffb10844d76838d~mv2.jpg/v1/fill/w_1800,h_900,al_c,q_85,enc_avif,quality_auto/7edcb1_85eb6cafa8c94fee8ffb10844d76838d~mv2.jpg" alt="Wild Kitchen Show" />
+  </div>
+  <div class="wk-hero-overlay"></div>
+  <div class="wk-hero-content">
+    <div class="wk-logo">
+      <img src="https://images.squarespace-cdn.com/content/v1/66eca0ae4f2f0e2d39de089b/d139848c-08fc-4bb3-a819-1ab4d24eb121/WK_Logo_OT.png?format=1500w" alt="Wild Kitchen Show Logo" />
+    </div>
+    <div class="wk-eyebrow">The Show</div>
+    <h1 class="wk-title">Wild<em>Kitchen</em></h1>
+    <div class="wk-tagline">Inspired by Adventure · Cooked to Perfection</div>
+    <div class="wk-hero-btns">
+      <a href="https://wildkitchen.show" target="_blank" class="btn-gold">Watch the Show</a>
+      <a href="https://www.instagram.com/chef_desh_wildkitchenshow/" target="_blank" class="btn-outline">Follow on Instagram</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT THE SHOW -->
+<section class="show-about">
+  <div class="show-about-img">
+    <img src="https://static.wixstatic.com/media/7edcb1_85eb6cafa8c94fee8ffb10844d76838d~mv2.jpg/v1/fill/w_900,h_1100,al_c,q_85,enc_avif,quality_auto/7edcb1_85eb6cafa8c94fee8ffb10844d76838d~mv2.jpg" alt="Wild Kitchen Show" />
+  </div>
+  <div class="show-about-text">
+    <div class="section-label">The Concept</div>
+    <h2 class="section-title">Where Culinary Craft Meets<br><em>Untamed Adventure</em></h2>
+    <p>The Wild Kitchen Show follows Chef Desh into the wild — cooking, exploring, and bringing food stories to life on screen. From remote coastlines to mountain camps, every episode is a journey into the relationship between nature and nourishment.</p>
+    <p>Currently in development for broadcast, Wild Kitchen is a Flavours Coast to Coast production — a TV series pitch that blends adventure travel with culinary storytelling in a way Canadian television hasn't seen before.</p>
+    <p>Desh Fernando brings his background as a chef, photographer, and outdoor adventurer together in a show that's as visually stunning as it is delicious.</p>
+    <a href="https://wildkitchen.show" target="_blank" class="btn-gold" style="margin-top:1rem;">Visit wildkitchen.show</a>
+  </div>
+</section>
+
+<!-- PLATFORMS -->
+<section class="platforms-section">
+  <div class="platforms-label">Follow the Journey</div>
+  <div class="platforms-grid">
+    <a href="https://www.instagram.com/chef_desh_wildkitchenshow/" target="_blank" class="platform-link">
+      <span class="platform-icon">📸</span>Instagram
+    </a>
+    <a href="https://wildkitchen.show" target="_blank" class="platform-link">
+      <span class="platform-icon">🎵</span>TikTok
+    </a>
+    <a href="https://wildkitchen.show" target="_blank" class="platform-link">
+      <span class="platform-icon">👥</span>Facebook
+    </a>
+    <a href="https://wildkitchen.show" target="_blank" class="platform-link">
+      <span class="platform-icon">🌐</span>wildkitchen.show
+    </a>
+  </div>
+</section>
+
+<!-- THE VISION -->
+<section class="pitch-section">
+  <div class="section-label">Flavours Coast to Coast</div>
+  <h2 class="section-title">The <em>Vision</em></h2>
+  <p class="pitch-desc">Wild Kitchen is more than a show — it's a platform for celebrating Canadian food culture, wild ingredients, and the chefs and communities who live closest to the land.</p>
+  <div class="pitch-cards">
+    <div class="pitch-card">
+      <div class="pitch-card-icon">🏔️</div>
+      <h3>Adventure Cooking</h3>
+      <p>Cooking in the wild with foraged and locally-sourced ingredients, bringing restaurant-quality technique to the most remote settings.</p>
+    </div>
+    <div class="pitch-card">
+      <div class="pitch-card-icon">🎬</div>
+      <h3>Cinematic Storytelling</h3>
+      <p>Every episode is shot with a photographer's eye for light and composition — stunning visuals that do justice to the landscapes and dishes.</p>
+    </div>
+    <div class="pitch-card">
+      <div class="pitch-card-icon">🌿</div>
+      <h3>Coast to Coast Canada</h3>
+      <p>From Vancouver Island's old-growth forests to Atlantic shores — a journey through the flavours and food cultures that define this country.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="wk-cta">
+  <div class="section-label">Get Involved</div>
+  <h2 class="section-title">Partner With the <em>Show</em></h2>
+  <p>Interested in collaboration, sponsorship, or bringing Wild Kitchen to your network? Let's talk.</p>
+  <a href="/index.html#contact" class="btn-gold">Get in Touch</a>
+</section>
+
+<footer>
+  <a href="/index.html" class="footer-logo">Chef <span>Desh</span></a>
+  <div class="footer-copy">© 2025 Desh Fernando. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="/photography.html">Photography</a>
+    <a href="/workshop.html">Workshop</a>
+    <a href="/index.html#contact">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>
