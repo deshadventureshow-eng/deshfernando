@@ -305,15 +305,15 @@
   <section id="worlds">
     <div class="worlds-header reveal">
       <div class="section-label">Everything I Do</div>
-      <h2 class="section-title">Four Worlds, <em>One Vision</em></h2>
+      <h2 class="section-title">Three Worlds, <em>One Vision</em></h2>
       <p>From the kitchen to the lens to the studio — every venture is driven by one belief: food is the greatest adventure life has to offer.</p>
     </div>
     <div class="worlds-grid">
 
-      <!-- Card 1: Photography — sourdough loaf image as backdrop -->
+      <!-- Card 1: Photography -->
       <a href="photography.html" class="world-card">
         <div class="world-card-img">
-          <img src="https://static.wixstatic.com/media/7edcb1_21dea03f23bc4be49a80289b382f48cf~mv2.jpg/v1/fill/w_800,h_1200,al_c,q_85,enc_avif,quality_auto/7edcb1_21dea03f23bc4be49a80289b382f48cf~mv2.jpg" alt="Photography" />
+          <img src="https://static.wixstatic.com/media/7edcb1_db6fdc9367e64630b5d8ff2029697bf9~mv2.jpg/v1/fill/w_800,h_1200,al_c,q_85,enc_avif,quality_auto/7edcb1_db6fdc9367e64630b5d8ff2029697bf9~mv2.jpg" alt="Photography" />
         </div>
         <div class="world-card-overlay"></div>
         <div class="world-card-divider"></div>
@@ -344,31 +344,14 @@
         </div>
       </a>
 
-      <!-- Card 3: Chef Desh Adventure -->
-      <a href="https://chefdesh.ca" target="_blank" class="world-card">
-        <div class="world-card-img">
-          <img src="https://static.wixstatic.com/media/7edcb1_930b7fdb0420444ebe2714976825d712~mv2.jpg/v1/fill/w_800,h_1200,al_c,q_85,enc_avif,quality_auto/7edcb1_930b7fdb0420444ebe2714976825d712~mv2.jpg" alt="Chef Desh Adventure" />
-        </div>
-        <div class="world-card-overlay"></div>
-        <div class="world-card-divider"></div>
-        <div class="world-card-content">
-          <div class="world-card-num">03</div>
-          <span class="world-card-icon">🌍</span>
-          <h3 class="world-card-title">Chef Desh Adventure Cooking</h3>
-          <div class="world-card-sub">Portfolio · Journey · Story</div>
-          <p class="world-card-desc">The story of a chef's evolution — from how the adventure began, to where it continues to take him around the world.</p>
-          <span class="world-card-arrow">See the Journey →</span>
-        </div>
-      </a>
-
-      <!-- Card 4: Wild Kitchen Show -->
+      <!-- Card 3: Wild Kitchen Show -->
       <a href="https://wildkitchen.show" target="_blank" class="world-card">
         <div class="world-card-img">
           <img src="https://static.wixstatic.com/media/7edcb1_85eb6cafa8c94fee8ffb10844d76838d~mv2.jpg/v1/fill/w_800,h_1200,al_c,q_85,enc_avif,quality_auto/7edcb1_85eb6cafa8c94fee8ffb10844d76838d~mv2.jpg" alt="Wild Kitchen Show" />
         </div>
         <div class="world-card-overlay"></div>
         <div class="world-card-content">
-          <div class="world-card-num">04</div>
+          <div class="world-card-num">03</div>
           <span class="world-card-icon">🎬</span>
           <h3 class="world-card-title">Wild Kitchen Show</h3>
           <div class="world-card-sub">Instagram · TikTok · Facebook</div>
@@ -577,8 +560,8 @@
 
     // Scroll reveal
     const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.observe(e.target); }
-    });
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
     // Contact form

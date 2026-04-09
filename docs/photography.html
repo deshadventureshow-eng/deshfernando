@@ -366,15 +366,15 @@ function buildMasonry(gallery, urls) {
     item.style.cursor = 'pointer';
 
     const img = new Image();
-    img.src = src;
     img.loading = 'lazy';
     img.alt = '';
     img.style.cssText = 'display:block;width:100%;height:auto;transition:transform .65s cubic-bezier(.25,.46,.45,.94),filter .4s;filter:brightness(.9) saturate(.95)';
 
-    img.onload = () => {
-      item.style.background = 'none';
-      item.appendChild(img);
-    };
+    function _appendImg() { item.style.background = 'none'; if (!item.contains(img)) item.appendChild(img); }
+    img.onload = _appendImg;
+    img.src = src;
+    if (img.complete && img.naturalWidth) _appendImg();
+
     img.onerror = () => {
       // Placeholder — keeps layout intact
       item.style.cssText += ';aspect-ratio:' + (1/ar) + ';background:linear-gradient(135deg,#1a1a1a,#222);display:flex;align-items:center;justify-content:center;';
